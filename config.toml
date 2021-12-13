@@ -1,0 +1,44 @@
+baseURL = "https://xega.org/vih+/"
+languageCode = "es-ES"
+defaultContentLanguage = "es"
+defaultContentLanguageInSubdir= true
+theme = "learn"
+title = "Guía para gais y hombres bisexuales con VIH"
+
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[author]
+  name = "Asociación XEGA"
+
+[params]
+  editURL = "https://gitlab.com/xega.org/hiv-positive/blob/master/content/"
+  description = "Esta guía está pensada para gais y hombres bisexuales que viven con VIH."
+  showVisitedLinks = false
+  disableInlineCopyToClipBoard = true
+  disableAssetsBusting = false
+  themeVariant = "green"
+  themeColor = "#74b559"
+  googleTagManager = "GTM-5QZT3BG" # Google Tag Manager for xega.org/es (Web)
+
+[Languages]
+  [Languages.en]
+    weight = 2
+    languageCode = "en-US"
+    languageName = "English"
+    title = "Guide for gay men and bisexual men with HIV"
+    description = "This guide is intended for gays and bisexual men living with HIV."
+    googleTagManager = "GTM-MDTTXKP" # Google Tag Manager for xega.org/en (Web)
+    
+    [Languages.en.author]
+      name = "XEGA Association"
+
+  [Languages.es]
+    weight = 3
+    languageName = "Español"
+
+  [Languages.ast]
+    weight = 1
+    languageCode = "ast-ES"
+    languageName = "Asturianu"
+    googleTagManager = "GTM-KC6H8TN" # Google Tag Manager for xega.org/ast (Web)

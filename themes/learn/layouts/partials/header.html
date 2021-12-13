@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="{{ .Page.Language | default "en" }}" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ .Site.Title }}{{ with .Title }}: {{ . }}{{ end }}</title>
+  <meta property="og:title" content="{{ .Site.Title }}{{ with .Title }}: {{ . }}{{ end }}">
+  <meta name="twitter:title" content="{{ .Site.Title }}{{ with .Title }}: {{ . }}{{ end }}">
+  
+  {{ with .Params.subtitle | default .Summary | default .Site.Params.description }}
+  <meta name="description" content="{{ . }}">
+  <meta property="og:description" content="{{ . }}">
+  <meta name="twitter:description" content="{{ . | truncate 200 }}">
+  {{ end }}
+  <meta name="author" content="{{ .Site.Author.name }}">
+  {{ if .Params.image }}
+    {{ if not (strings.HasPrefix .Params.image "/") }}
+      <meta property="og:image" content="{{ .Permalink }}{{ .Params.image }}">
+      <meta name="twitter:image" content="{{ .Permalink }}{{ .Params.image }}">
+    {{ else }}
+      <meta property="og:image" content="{{ .Params.image | absURL }}">
+      <meta name="twitter:image" content="{{ .Params.image | absURL }}">
+    {{ end }}
+  {{ else }}
+    <meta property="og:image" content="{{ .Site.BaseURL }}img/default-1920x1080-{{ .Lang }}.webp">
+    <meta name="twitter:image" content="{{ .Site.BaseURL }}img/default-1920x1080-{{ .Lang }}.webp">
+  {{ end }}
+  <meta name="twitter:card" content="summary">
+  {{ with .Site.Params.twitter }}
+  <meta name="twitter:site" content="@{{ . }}">
+  {{ end }}
+  {{ with .Site.Author.twitter }}
+  <meta name="twitter:creator" content="@{{ . }}">
+  {{ end }}
+  {{ with .Site.Params.facebookAppID }}
+  <meta property="fb:app_id" content="{{ . }}">
+  {{ end }}
+  <meta property="og:url" content="{{ .URL | absLangURL }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="{{ .Lang }}">
+  <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta name="generator" content="Hugo">
+    <link rel="canonical" href="{{ .Permalink }}">
+    {{ if .IsTranslated }}
+      {{ range .Translations }}
+      <link rel="alternate" href="{{ .Permalink }}" hreflang="{{ .Lang }}" title="{{ .Language.Title }}">
+      {{ end }}
+    {{ end }}
+    {{ if .RSSLink }}
+    <link rel="alternate" href="{{ .RSSLink }}" type="application/rss+xml" title="{{ .Site.Title }}">
+    {{ end }}
+    <link rel="shortcut icon" href="{{ .Site.BaseURL }}favicon.ico">
+    <link rel="icon" type="image/png" sizes="196x196" href="{{ .Site.BaseURL }}img/default-196x196-{{ .Lang }}.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{{ .Site.BaseURL }}img/default-180x180-{{ .Lang }}.png">
+    {{ with .Site.Params.themeColor }}
+    <meta name="theme-color" content="{{ . }}">
+    {{ end }}
+
+    {{ $assetBusting := not .Site.Params.disableAssetsBusting }}
+    <link href="{{"css/nucleus.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/fontawesome-all.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/hybrid.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/featherlight.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/perfect-scrollbar.min.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/auto-complete.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/theme.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    <link href="{{"css/hugo-theme.css" | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    {{with .Site.Params.themeVariant}}
+      <link href="{{(printf "css/theme-%s.css" .) | relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}" rel="stylesheet">
+    {{end}}
+
+    <script src="{{"js/jquery-2.x.min.js"| relURL}}{{ if $assetBusting }}?{{ now.Unix }}{{ end }}"></script>
+
+    <style type="text/css">
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+    </style>
+    {{ if .Site.Params.disableInlineCopyToClipBoard }}
+    <style type="text/css">
+    :not(pre) > code + span.copy-to-clipboard {
+        display: none;
+    }
+    </style>
+    {{ end }}
+    {{ if .Site.Params.googleTagManager }}
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        "gtm.start": new Date().getTime(),
+        event: "gtm.js"
+      });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src =
+        "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "{{ .Site.Params.googleTagManager }}");
+  </script>
+  {{ end }}
+  </head>
+  <body class="" data-url="{{ .RelPermalink }}">
+    {{ if .Site.Params.googleTagManager }}
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.googleTagManager }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    {{ end }}
+    {{ partial "menu.html" . }}
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+                <div id="top-bar">
+                  {{ if and (or .IsPage .IsSection) .Site.Params.editURL }}
+                    {{ $File := .File }}
+                    {{ $Site := .Site }}
+                    {{ with $File.Path }}
+                      <div id="top-github-link">
+                        <a class="github-link" title='{{T "Edit-this-page"}}' href="{{ $Site.Params.editURL }}{{ replace $File.Dir "\\" "/" }}{{ $File.LogicalName }}" target="blank">
+                          <i class="fas fa-code-branch"></i>
+                          <span id="top-github-link-text">{{T "Edit-this-page"}}</span>
+                        </a>
+                      </div> <!-- #top-github-link -->
+                    {{ end }}
+                  {{ end }}
+                  {{ $toc := ( and (not .Params.disableToc) (not .Params.chapter) ) }}
+                  <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                      <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                        <i class="fas fa-bars"></i>
+                      </a>
+                    </span>
+                    {{ if $toc }}
+                      <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                    {{ end }}
+                    <span class="links">
+                      {{ template "breadcrumb" dict "page" . "value" .Title }}   
+                    </span>
+                  </div> <!-- #breadcrumbs -->
+                  {{ if $toc }}
+                    {{ partial "toc.html" . }}
+                  {{ end }}
+                </div> <!-- #top-bar -->
+
+            {{ if .Params.chapter }}
+            <div id="chapter">
+          {{ end }}
+          <div id="body-inner">
+            {{if and (not .IsHome) (not .Params.chapter) }}
+              <h1>{{.Title}}</h1>
+            {{end}}
+
+        {{define "breadcrumb"}}
+          {{$parent := .page.Parent }}
+          {{ if $parent }}
+            {{ $value := (printf "<a href='%s'>%s</a> > %s" $parent.URL $parent.Title .value) }}
+            {{ template "breadcrumb" dict "page" $parent "value" $value }} 
+          {{else}}
+            {{.value|safeHTML}}
+          {{end}}
+        {{end}}
